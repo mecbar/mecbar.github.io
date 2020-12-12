@@ -1,0 +1,130 @@
+
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ mkdir node1
+
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ geth --datadir ./node1/data account new 
+INFO [06-17|10:39:58] Maximum peer count                       ETH=25 LES=0 total=25
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Passphrase: 
+Repeat passphrase: 
+Address: {58e52976e4653178507cd30ee467d04a16616574}
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ geth --datadir .node1/data  account new 
+INFO [06-17|10:40:19] Maximum peer count                       ETH=25 LES=0 total=25
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Passphrase: 
+Repeat passphrase: 
+Address: {6658f259b633f8d14594efce0ff357a07d04ca2b}
+
+
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ puppeth
++-----------------------------------------------------------+
+| Welcome to puppeth, your Ethereum private network manager |
+|                                                           |
+| This tool lets you create a new Ethereum network down to  |
+| the genesis block, bootnodes, miners and ethstats servers |
+| without the hassle that it would normally entail.         |
+|                                                           |
+| Puppeth uses SSH to dial in to remote servers, and builds |
+| its network components out of Docker containers using the |
+| docker-compose toolset.                                   |
++-----------------------------------------------------------+
+
+
+
+Please specify a network name to administer (no spaces or hyphens, please)
+> cc5
+
+Sweet, you can set this via --network=Quadra next time!
+
+INFO [06-17|10:43:30] Administering Ethereum network           name=cc5
+WARN [06-17|10:43:30] No previous configurations found         path=/home/mecbar/.puppeth/Quadra
+
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Configure new genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+
+Which consensus engine to use? (default = clique)
+ 1. Ethash - proof-of-work
+ 2. Clique - proof-of-authority
+> 2
+
+How many seconds should blocks take? (default = 15)
+> 300
+
+Which accounts are allowed to seal? (mandatory at least one)
+> 0x27ef59c8d707535ac45621293c4418ad5c196204
+> 0x0548e6d75c16af5984a8b646508588f2b82cd76a
+> 0x
+
+Which accounts should be pre-funded? (advisable at least one)
+> 0x27ef59c8d707535ac45621293c4418ad5c196204
+> 0x0548e6d75c16af5984a8b646508588f2b82cd76a
+> 0x
+
+Specify your chain/network ID if you want an explicit one (default = random)
+> 126
+INFO [06-17|10:44:56] Configured new genesis block 
+
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Manage existing genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+
+ 1. Modify existing fork rules
+ 2. Export genesis configuration
+ 3. Remove genesis configuration
+> 2
+
+Which file to save the genesis into? (default = Quadra.json)
+> cc5.json
+INFO [06-17|10:45:32] Exported existing genesis block 
+
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Manage existing genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 
+ctrl-c
+
+ORA creo ENODE :
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ bootnode -genkey boot.key
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ bootnode -nodekey './boot.key' -verbosity 7 -addr '127.0.0.1:30310'
+INFO [06-17|11:03:32] UDP listener up                          self=enode://6765484c7e3a61defd9b10138c20c13ce36e265fc8109ad0d48ff25b4942aa9ab98e9166682c2db0889d31ecc970cbc7b96b07c5b4fc680cbd4771ba7b6e76df@127.0.0.1:30310
+
+
+ora mine il primo blocco :
+
+mecbar@mecbar:/………./develop/ccc$   geth  --datadir   ./node1/data   init  ./cc7.json  
+
+mecbar@mecbar:/media/mecbar/DATA/develop/ccc$ cd node1
+
+geth --datadir  ./data --networkid 130 --port 30303 --ipcdisable  --rpc --rpccorsdomain '*' --rpcport 8545 --bootnodes 'enode://d447897100c6b93366c702f249b8bfc8890699c0f0c2210f34743c550f40c60e35399e8a56c57824d2148604809e8db2a8275d1162a911dfcb6b221d318e6141@127.0.0.1:30310' --unlock b58c475866a65094d9e44d5f338398ed49c15299 --password password.txt --mine console
+
+password.txt   dentro node1 
+
+ora con metamask ci si può connettere con localhost:8545 
+
+CREATE NODE2 su NETWORWID = 130
+
+mkdir node2
+
+geth --datadir ./node2/data account new 
+
+geth --datadir ./node2/data account new 
+
+cd node2
+
+geth --datadir  ./data --networkid 130 --port 30304 --ipcdisable  --rpc --rpccorsdomain '*' --rpcport 8546 --bootnodes 'enode://d447897100c6b93366c702f249b8bfc8890699c0f0c2210f34743c550f40c60e35399e8a56c57824d2148604809e8db2a8275d1162a911dfcb6b221d318e6141@127.0.0.1:30310' --unlock 828543f0637bdcff9143176d06bcdc3118ee62af  --password password.txt console
+
+
