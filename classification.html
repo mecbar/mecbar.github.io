@@ -381,12 +381,12 @@
 
 <body>
 <div class="center titolo">
-    <i> Machine Learning </i>
+    <i> Machine Learning - Classification </i>
  </div>
  <div class="testo">
 
 
-Con il Machine Learning abbiamo molti modelli per effettuare la classificazione di qualsiasi oggetti, documenti, 
+Il Machine Learning ci fornisce molti modelli per effettuare la classificazione di qualsiasi oggetti, documenti, 
 foto, parole ecc. anche se con il Deep Learning si hanno altri strumenti anche più performanti come la 
 Convolutional Neural Network o un semplice Artificial Neural Network. <br>
 
@@ -394,9 +394,37 @@ Qui comunque vediamo i principali modelli di classificazione tra i quali:<br>
 K-Nearest Neighbors (K-NN) - Logistic Regression - Support Vector Machine (SVM) -
 Kernel SVM - Naive Bayes - Decision Tree Classification - Random Forest Classification - 
 eXtreme Gradient Boosting<br>
-<br>
-Sotto si propongono degli esempi in Python. <br>
+Sotto si propongono degli esempi in Python. <br><br>
 
+The data is related with direct marketing campaigns of a Portuguese banking institution.
+<div class="fonti">
+The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be (or not) subscribed.<br>
+The bank dataset with all examples from May 2008 to November 2010 has 45211 instances.<br>
+The classification goal is to predict if the client will subscribe a product of the bank the term deposit (variable y).<br>
+The dataset has 16 + output attribute our dependent variable.<br>
+The input attribute are our independent variables:<br>
+# bank client data:<br>
+1 - age (numeric)<br>
+2 - job : type of job (categorical: "admin.","unknown","unemployed","management","housemaid","entrepreneur","student", "blue-collar","self-employed","retired","technician","services")<br>
+3 - marital : marital status (categorical: "married","divorced","single"; note: "divorced" means divorced or widowed)<br>
+4 - education (categorical: "unknown","secondary","primary","tertiary")<br>
+5 - default: has credit in default? (binary: "yes","no")<br>
+6 - balance: average yearly balance, in euros (numeric)<br>
+7 - housing: has housing loan? (binary: "yes","no")<br>
+8 - loan: has personal loan? (binary: "yes","no") # related with the last contact of the current campaign:<br>
+9 - contact: contact communication type (categorical: "unknown","telephone","cellular")<br>
+10 - day: last contact day of the month (numeric)<br>
+11 - month: last contact month of year (categorical: "jan", "feb", "mar", ..., "nov", "dec")<br>
+12 - duration: last contact duration, in seconds (numeric)<br>
+13 - campaign: number of contacts performed during this campaign and for this client (numeric, includes last contact)<br>
+14 - pdays: number of days that passed by after the client was last contacted from a previous campaign (numeric, -1 means client was not previously contacted)<br>
+15 - previous: number of contacts performed before this campaign and for this client (numeric)<br>
+16 - poutcome: outcome of the previous marketing campaign (categorical: "unknown","other","failure","success") Output variable (desired target):<br>
+17 - y - has the client subscribed a term deposit? (binary: "yes","no")<br>
+For the project we use the following file granted from UCI Machine Learning Repository :<br>
+[Moro et al., 2011] S. Moro, R. Laureano and P. Cortez. Using Data Mining for Bank Direct Marketing: An Application of the CRISP-DM Methodology. In P. Novais et al. (Eds.), Proceedings of the European Simulation and Modelling Conference - ESM'2011, pp. 117-121, Guimarães, Portugal, October, 2011. EUROSIS. Available at: [pdf] http://hdl.handle.net/1822/14838 [bib] http://www3.dsi.uminho.pt/pcortez/bib/2011-esm-1.txt 
+ </div>
+<b> Import librerie </b>
 <br>
 <div class="quad">
 import numpy as np<br>
@@ -405,6 +433,7 @@ import pandas as pd<br>
 from sklearn.model_selection import cross_val_score<br>
 from sklearn.metrics import classification_report, plot_confusion_matrix, confusion_matrix, accuracy_score
 </div>
+<b> Import file con i dati dei clienti di una banca </b>
 <div class="quad">
 
 bank = pd.read_csv('/content/drive/MyDrive/crypto/bank.csv')<br>
@@ -413,7 +442,7 @@ numero = range(1,len(bank)+1)<br>
 num = pd.Series(numero)<br>
 bank.insert(0, 'num' , num)<br>
    </div>
-
+<b> Sostituzione label con numeri  </b>
    <div class="quad">
 bank2 = bank.iloc[:,:9]<br>
 y = bank.iloc[:,-1]<br>
@@ -436,11 +465,12 @@ bank2 = bank2.replace(to_replace='services', value = 8)<br>
 bank2 = bank2.replace(to_replace='unemployed', value = 9)<br>
 bank2 = bank2.replace(to_replace='housemaid', value = 10)<br>
 </div>
-
+<b> Export X ed y  </b>
 <div class="quad">
 X = bank2.iloc[:, :-1].values<br>
 y = bank2.iloc[:, -1].values<br>
 </div>
+<b> LOGISTIC REGRESSION </b>
 <div class="quad">
    from sklearn.linear_model import LogisticRegression<br>
    import matplotlib.pyplot as plt<br>
@@ -465,8 +495,7 @@ y = bank2.iloc[:, -1].values<br>
 <br>
 <img src="foto/logreg.png" width="80%" height="400px"><br>
 
-<br>
-
+<b> XGB Classifier </b>
 
 <div class="quad">
 from sklearn.model_selection import train_test_split<br>
@@ -500,7 +529,7 @@ weighted avg       0.81      0.84      0.78      9043<br>
 <br>
 </div>
 
-Applying k-Fold Cross Validation<br>
+<b>k-Fold Cross Validation</b>
 <div class="quad">
 accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, verbose= 1, cv = 10)<br>
 print("Accuracy: {:.2f} %".format(accuracies.mean()*100))<br>
@@ -513,6 +542,7 @@ Standard Deviation: 0.24 %<br>
 Max Accuracy: 84.82 %<br>
 Min Accuracy: 83.85 %<br>
 </div>
+<b> Support Vector Machine Classifier </b>
 <div class="quad">
 from sklearn import svm<br>
 cls_sv = svm.SVC()<br>
@@ -532,7 +562,7 @@ Min Accuracy: 84.02 %<br>
 Standard Deviation: 0.01 %<br>
 </div>
 
-Con la Class MLPClassifier creiamo in Multiplayer perceptron (MLP) algorithm - neural network<br>
+<b>MLPClassifier algorithm - neural network</b>
 <div class="quad">
 
 from sklearn.neural_network import MLPClassifier<br>
@@ -554,7 +584,9 @@ Min Accuracy: 83.72 %<br>
 Standard Deviation: 0.12 %<br>
 </div>
 
-Ensemble methods<br>
+<b>ENSEMBLE</b><br>
+<b> Gradient Boosting Classifier</b>
+
 <div class="quad">
 from sklearn.ensemble import GradientBoostingClassifier<br>
 <br>
@@ -576,7 +608,7 @@ Max Accuracy: 84.43 %<br>
 Min Accuracy: 83.83 %<br>
 Standard Deviation: 0.17 %<br>
 </div>
-
+<b>Bagging Classifier con KNN</b>
 <div class="quad">
 from sklearn.ensemble import BaggingClassifier<br>
 from sklearn.neighbors import KNeighborsClassifier<br>
@@ -599,7 +631,7 @@ Max Accuracy: 84.16 %<br>
 Min Accuracy: 83.99 %<br>
 Standard Deviation: 0.05 %<br>
 </div>
-
+<b> RANDOM FOREST CLASSIFIER</b>
 <div class="quad">
 
 from sklearn.ensemble import RandomForestClassifier<br>
@@ -620,9 +652,8 @@ Accuracy: 83.23 %<br>
 Max Accuracy: 83.72 %<br>
 Min Accuracy: 82.36 %<br>
 Standard Deviation: 0.39 %<br>
-<br>
 </div>
-
+<b> DECISION TREE CLASSIFIER</b>
 <div class="quad">
 
 from sklearn.tree import DecisionTreeClassifier<br>
@@ -647,7 +678,7 @@ Max Accuracy: 76.44 %<br>
 Min Accuracy: 74.45 %<br>
 Standard Deviation: 0.63 %<br>
 </div>
-
+<b> RANDOM FOREST CLASSIFIER</b>
 <div class="quad">
 
 from sklearn.ensemble import RandomForestClassifier<br>
@@ -674,7 +705,7 @@ Standard Deviation: 0.40 %<br>
 
 </div>
 
-
+<b>Extra Trees Classifier</b>
 <div class="quad">
 from sklearn.ensemble import ExtraTreesClassifier<br>
 
@@ -700,7 +731,7 @@ Min Accuracy: 81.92 %<br>
 Standard Deviation: 0.29 %<br>
 </div>
 
-
+<b>AdaBoost Classifier</b>
 <div class="quad">
 from sklearn.ensemble import AdaBoostClassifier<br>
 <br>
@@ -722,7 +753,7 @@ Min Accuracy: 83.88 %<br>
 Standard Deviation: 0.11 %<br>
 <br>
 </div>
-
+<b>Gradient Boosting Classifier</b>
 <div class="quad">
 from sklearn.ensemble import GradientBoostingClassifier<br>
 <br>
@@ -747,7 +778,7 @@ Max Accuracy: 84.43 %<br>
 Min Accuracy: 83.83 %<br>
 Standard Deviation: 0.17 %<br>
 </div>
-
+<b>Hist Gradient Boosting Classifier</b>
 <div class="quad">
 from sklearn.experimental import enable_hist_gradient_boosting<br>
 from sklearn.ensemble import HistGradientBoostingClassifier<br>
@@ -770,7 +801,7 @@ Min Accuracy: 83.83 %<br>
 Standard Deviation: 0.28 %<br>
 </div>
 
-Voting Classifier Hard<br>
+<b>Voting Classifier Hard</b>
 <br>
 <div class="quad">
 from sklearn.naive_bayes import GaussianNB<br>
@@ -799,10 +830,8 @@ Accuracy: 0.842 (Standard Deviation:  0.001) [Ensemble]<br>
 </div>
 
 
-<br>
-Voting Classifier Soft<br>
+<b>Voting Classifier Soft</b>
 
-<br>
 
 <div class="quad">
 from sklearn.tree import DecisionTreeClassifier<br>
@@ -846,6 +875,7 @@ print("[%s] Accuracy: %0.3f (Standard Deviation:  %0.3f) " % ( classifier, score
     Min Accuracy: 84.02 %<br>
     Standard Deviation: 0.01 %<br>
 </div>
+<b>NAIVE BAYES - BERNOULLI </b>
 <div class="quad">
     from sklearn.naive_bayes import BernoulliNB <br>
     <br>
@@ -882,7 +912,7 @@ Standard Deviation: 0.13 %<br>
 <img src="foto/bernoulliclass.png" width="80%" height="400px"><br>
 
 <br>
-
+<b>NAIVE BAYES - BERNOULLI - Con riduzione dati input (PCA) </b>
 <div class="quad">
 
 from sklearn.decomposition import PCA<br>
@@ -927,14 +957,11 @@ plt.ylabel(input2)<br>
 plt.legend()<br>
 plt.show()<br>
 </div>
-
-
-
-
 <br>
 <img src="foto/bernoulliclass2.png" width="70%" height="400px"><br>
 
 <br>
+<b>ADABOOSTING  - Con riduzione dati input (PCA) </b>
 <div class="quad">
 import numpy as np<br>
 import matplotlib.pyplot as plt<br>
@@ -944,8 +971,6 @@ from sklearn.ensemble import AdaBoostClassifier<br>
 <br>
 X, y = x_train, y_train<br>
 <br>
-
-
 
 h = .05  # step size  for mesh <br>
 <br>
@@ -981,6 +1006,7 @@ plt.show()<br>
 <img src="foto/adaboost.png" width="80%" height="400px"><br>
 
 <br>
+<b> SGD - Con riduzione dati input (PCA) e StandardScaler </b>
 <div class="quad">
 from sklearn.linear_model import SGDClassifier<br>
 from sklearn.preprocessing import StandardScaler<br>
@@ -1019,13 +1045,13 @@ Standard Deviation: 0.01 %<br>
 <img src="foto/sgdclass.png" width="70%" height="400px"><br>
 
 <br>
+<b>SGD  - Con riduzione dati input (PCA) e grafico 3D </b>
 <div class="quad">
 import numpy as np<br>
 import matplotlib.pyplot as plt<br>
 import seaborn as sns<br>
 from matplotlib.colors import ListedColormap<br>
 from sklearn.linear_model import SGDClassifier<br>
-from sklearn.model_selection import train_test_split<br>
 from sklearn.preprocessing import StandardScaler<br>
 from sklearn.decomposition import PCA<br>
 <br>

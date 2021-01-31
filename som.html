@@ -383,8 +383,36 @@ ad. esempio PCA. Sotto una immagine(fonte: Wikipedia) di come l'algoritmo evolve
  <br><br><br>
 <img src="foto/Somtraining.svg" width="70%" height="150px"><br><br>
 <div class="testo">
-    Sotto un esempio in Python per creare un cluster con clienti di una banca che hanno carateristiche simili. 
-</div>
+    Sotto un esempio in Python per creare un cluster con clienti di una banca che hanno caratteristiche simili. 
+    <br>
+The data is related with direct marketing campaigns of a Portuguese banking institution.
+<div class="fonti">
+The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be (or not) subscribed.<br>
+The bank dataset with all examples from May 2008 to November 2010 has 45211 instances.<br>
+The classification goal is to predict if the client will subscribe a product of the bank the term deposit (variable y).<br>
+The dataset has 16 + output attribute our dependent variable.<br>
+The input attribute are our independent variables:<br>
+# bank client data:<br>
+1 - age (numeric)<br>
+2 - job : type of job (categorical: "admin.","unknown","unemployed","management","housemaid","entrepreneur","student", "blue-collar","self-employed","retired","technician","services")<br>
+3 - marital : marital status (categorical: "married","divorced","single"; note: "divorced" means divorced or widowed)<br>
+4 - education (categorical: "unknown","secondary","primary","tertiary")<br>
+5 - default: has credit in default? (binary: "yes","no")<br>
+6 - balance: average yearly balance, in euros (numeric)<br>
+7 - housing: has housing loan? (binary: "yes","no")<br>
+8 - loan: has personal loan? (binary: "yes","no") # related with the last contact of the current campaign:<br>
+9 - contact: contact communication type (categorical: "unknown","telephone","cellular")<br>
+10 - day: last contact day of the month (numeric)<br>
+11 - month: last contact month of year (categorical: "jan", "feb", "mar", ..., "nov", "dec")<br>
+12 - duration: last contact duration, in seconds (numeric)<br>
+13 - campaign: number of contacts performed during this campaign and for this client (numeric, includes last contact)<br>
+14 - pdays: number of days that passed by after the client was last contacted from a previous campaign (numeric, -1 means client was not previously contacted)<br>
+15 - previous: number of contacts performed before this campaign and for this client (numeric)<br>
+16 - poutcome: outcome of the previous marketing campaign (categorical: "unknown","other","failure","success") Output variable (desired target):<br>
+17 - y - has the client subscribed a term deposit? (binary: "yes","no")<br>
+For the project we use the following file granted from UCI Machine Learning Repository :<br>
+[Moro et al., 2011] S. Moro, R. Laureano and P. Cortez. Using Data Mining for Bank Direct Marketing: An Application of the CRISP-DM Methodology. In P. Novais et al. (Eds.), Proceedings of the European Simulation and Modelling Conference - ESM'2011, pp. 117-121, Guimarães, Portugal, October, 2011. EUROSIS. Available at: [pdf] http://hdl.handle.net/1822/14838 [bib] http://www3.dsi.uminho.pt/pcortez/bib/2011-esm-1.txt 
+ </div>
  </div>
 <div class="quad">
 from minisom import MiniSom<br>
