@@ -9,6 +9,40 @@
     padding: 0px;
  }
 
+.dot {
+    background-color:#000;
+    /* color: #e6007a; */
+    color:#fff;
+    font-weight: 700;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 22px;
+    line-height: 35px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding : 50px;
+}
+.quad {
+    color :#050821;
+    font-weight: 400;
+    font-family:  serif;
+    font-size: 20px;
+    line-height: 25px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin:5px;
+    padding : 50px;
+    padding-top:20px;
+    padding-bottom:20px;
+    border: 2px solid #c92ad8;
+}
+.quad:hover {
+    color :white;
+    background-color:#050821
+}
+.dot1 {
+   color: #e6007a !important;
+}
+
 .cerchio {
     border-start-start-radius: 42px;
     border-start-end-radius: 148px;
@@ -198,11 +232,31 @@ padding:5px;
     margin:20px;
      }
 .blog-q2 a:hover {
-        border-bottom:0px solid #000000;
-        border-left:0px solid #000000;
+        border-bottom:2px solid #000000;
+        border-left:2px solid #000000;
         border-top:2px solid #89ff00;
         border-right:2px solid #89ff00;
      }
+
+.blog-q22 a {
+        flex-grow: 4;
+        color: #d40035;
+        font-size: 25px;
+        font-family:  'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-style: italic;
+        border-right:2px solid #ffd000;
+        border-left:2px solid #ffd000;
+        padding:5px;
+        margin:20px;
+         }
+.blog-q22 a:hover {
+            border-bottom:2px solid #ffd000;
+            border-left:2px solid #000000;
+            border-top:2px solid #ffd000;
+            border-right:2px solid #000000;
+         }
+    
+      
 .blog-q3 a {
         flex-grow: 4;
         color: #b829fa;
@@ -220,6 +274,28 @@ padding:5px;
     border-top:1px solid #ffffff;
     border-bottom:1px solid #ffffff;
 } 
+
+.blog-q33 a {
+    flex-grow: 4;
+    color: #d783fd;
+    font-size: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: italic;
+    border-top:1px solid #ffffff;
+    border-bottom:1px solid #ffffff;
+   
+    border-bottom-right-radius: 30px;
+    padding:5px;
+    margin:20px;
+     }  
+
+.blog-q33 a:hover {
+border-top:1px solid #d783fd;;
+border-bottom:1px solid #d783fd;
+color:#ffffff;
+} 
+
+
 .blog-q {
     margin: 5px;
     margin-top: 15px;
@@ -3045,21 +3121,95 @@ text-align: center;
         
         
         @media only screen and (min-width:50px) and (max-width: 600px) {
+
+            #gira1, #gira2, #gira3  {
+                display: none;
+            }
+            .backo {
+                padding:50px;
+                 }
+            .varie {
+                display: block;
+                height:auto;
+            }
+            .blog-q {
+                font-size: 10px;
+                vertical-align: middle;
+                padding:1%;
+            }
+            .blog-q a {
+                vertical-align: middle; 
+            }
+            .blog-q0 a,
+            .blog-q2 a,
+            .blog-q1 a,
+            .blog-q3 a, .blog-q33 a, 
+            .blog-q22 a ,.blog-q000 a, 
+            .blog-q00 a 
+             {
+                font-size: 14px !important;
+            }
+            .textblog {
+                text-align: center;
+            }
+            #frame   {
+                display: block !important;
+                margin:10px;
+                height: auto !important;
+            }
+
+            #pillole  {
+                display: block !important;
+                margin:20%;
+                height: auto !important;
+            }
+            .pillolepy2 a {
+                font-size: 17px !important;
+            }
+            .mini {
+                font-size: 15px !important;
+                max-width:100%; 
+            }
+            .boxGo {
+                display: block !important;
+                height:auto; 
+            }
+            .boxGo div a {
+                font-size:25px;
+            }
+            .boxGet {
+                display: block !important;
+            }
+            .tasto-app {
+                display: None !important;
+            }
+            .titolo {
+                font-size: 16px;
+            }
             .tbox13 {
                 grid-template-columns:  5% 90% auto;
             }
-            .excel{
+            .excel {
                 grid-template-columns: auto;
             }
             .ts {
                 height:auto; 
 
             }
-            .testo {
-                
+            .testo ,.model77, .dot, .quad, 
+            .model,.model3,.model5,.model8,
+            .model2,.model4,.model6,.model7,.model-q3,
+            .grover {
+                text-align:left;
                 line-height: 17px;
-                font-size: 14x;
-                margin: 1%;
+                font-size: 13px;
+                margin: 3%;
+                padding: 3%;
+            }
+            .teleport3 {
+                font-size: 20px;
+                line-height: 23px;
+                text-align: center;
             }
             img  {
                 width: 100%;
