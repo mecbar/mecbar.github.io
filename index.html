@@ -45,7 +45,7 @@
     <meta property="og:description" content="MecBar for you" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital@1&display=swap" rel="stylesheet"> 
-
+    
 </head>
 <style>
 img {
@@ -69,8 +69,8 @@ $( document ).ready(function() {
 
 
 </script>
-<body>
-    
+
+<body>  
     <nav>
         <li class="nav-wrapper back-home" id="head">
             <a href="https://www.mecbar.com/" class="aabrand-logo mecbar">
@@ -378,13 +378,13 @@ $( document ).ready(function() {
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
             <ul class="right hide-on-med-and-down">
-                <!--  <li> <a class="btn" onclick="Materialize.toast('Hello', 4000, 'Ciao' ,4000 )">Touch Me</a> </li>
-              -->
+              
               <li><a href="#block3">Blockchain</a></li>
                 <li><a href="#quantum">Quantum</a></li>
                 <li><a href="#ml">Machine Learning</a></li>
                 <li><a href="#Ablog">Blog</a></li>
                 <li><a href="#Adev">Develop</a></li>
+                <li><a href="#AWindows">Windows</a></li>
                 <li><a href="#Alinux">Linux</a></li>
                 <li><a href="#Aus">Contatti</a></li>
                 <li>
@@ -400,6 +400,7 @@ $( document ).ready(function() {
                 <li><a href="#ml">Machine Learning</a></li>
                 <li><a href="#Ablog">Blog</a></li> 
                 <li>  <a href="#Adev">Develop</a></li>
+                <li><a href="#AWindows">Windows</a></li>
                 <li><a href="#Alinux">Linux</a></li>
                 <li><a href="#Aus">Contatti</a></li>
             </ul>
@@ -407,9 +408,8 @@ $( document ).ready(function() {
     </nav>
 
 
-
-<div class="row" style="height: 150px;">
-    <div class="col l4 m12 s12">
+<div id="gira" class="row" style="height: 150px;">
+    <div  id="gira1" class="col l4 m12 s12">
         <div class="scene"><a href="Algebra_lineare.html">
             <div class="cube">
               <div class="cube_front"><img src="foto/MATRIXx.png" width="100%" height="100%"></div>
@@ -420,8 +420,8 @@ $( document ).ready(function() {
               <div class="cube_bottom"><img src="foto/q19.png" width="100%" height="100%"></div>
              </div></a>
         </div>
-</div>
-    <div class="col l4 m12 s12">
+    </div>
+    <div  id="gira2" class="col l4 m12 s12">
         <div class="scene_vertical"><a href="quantum_base.html">
             <div class="cube">
               <div class="cube_front"><img src="foto/bell.png" width="100%" height="100%"></div>
@@ -437,7 +437,7 @@ $( document ).ready(function() {
         </div> 
       
    </div>
-     <div class="col l4 m12 s12">
+     <div  id="gira3" class="col l4 m12 s12">
         <div class="scene"><a href="gate.html">
             <div class="cube">
               <div class="cube_front" style="color:rgb(235, 63, 63)!important;padding-top:50px;font-size:30px;text-align: center;color: blue;">QUANTUM GATE</div>
@@ -681,11 +681,28 @@ Barren Plateau
 
 <div class="blog-q3 cerchio"><a href="marketing_bank_clustering.html">CLUSTER - AutoEncoder_K-Means</a> 
 </div>
-<div class="blog-q000 cerchio"><a href="progetto_banka.html">Regression </a> 
+<div class="blog-q000 cerchio"><a href="progetto_banka.html">Logist Regression </a> 
 </div>
 <div class="blog-q00 cerchio"><a href="gradient.html">Backpropagation - Gradient Descent </a> 
 </div>
-
+<div class="blog-q000 cerchio"><a href="conv_var_auto_encoder.html">CVAE - create new images </a> 
+</div>
+<div class="blog-q2"><a href="GAN_Pytorch.html">GAN - create new images </a> 
+</div>
+<div class="blog-q22"><a href="checkpoint_pytorch.html">PyTorch save/load Ckeckpoint </a> 
+</div>
+<div class="blog-q00"><a href="tensorboard.html">TensorBoard </a> 
+</div>
+<div class="blog-q00"><a href="classification_report.html">Confusion Matrix </a> 
+</div>
+<div class="blog-q000"><a href="face_detection_rbm.html">Face Detection with RBM </a> 
+</div>
+<div class="blog-q22"><a href="som.html">Self Organizing Map</a> 
+</div>
+<div class="blog-q33"><a href="linear_regression.html">Linear Regression</a> 
+</div>
+<div class="blog-q33"><a href="multiple_linear_regression.html">Multiple Linear Regression</a> 
+</div>
     </div>
 
 
@@ -937,7 +954,7 @@ Barren Plateau
                            
            </div>
         </div>
-        <div style="display: flex;">
+        <div id="frame" style="display: flex;">
 
             <div style="font-size:20px;padding:15px ;color:#09090a">
                 <p style="text-align:center;font-size:25px;color:#0c0cf5e8">VUEJS</p>
@@ -977,7 +994,7 @@ Barren Plateau
 
         </div>
         <br> <br> <br>
-        <div style="display: flex;">
+        <div id="pillole" style="display: flex;">
             
           
           <div style="font-size:25px; color: rgb(19, 49, 221);">
@@ -1008,8 +1025,7 @@ Barren Plateau
         <div class="boxxeinv">
             <p style="text-align:center;width:100%;font-size:45px; color: rgba(58, 7, 197, 0.774);">Pillole di Javascript</p>
             <a href="pillolejs.html">
-                <img id="jshome" src="foto/jshome2.png" width="85%" height="300px">
-           
+                <img id="jshome" src="foto/jshome2.png" width="85%" height="300px"> 
             </a> 
         </div>
 
@@ -2222,7 +2238,154 @@ Barren Plateau
 
         <div class="col s12 m12 l12">
 
-            <div class="ubuntu" id="Alinux">
+            <div class="ubuntu center" style="background:#ffffff" id="AWindows">
+                Windows batch command 
+            </div>
+        </div>
+        <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Rename file without first characters</div>
+                <div class="collapsible-body">
+                    ::Rename file csv cut first 6 characters<br>
+                    @echo off<br>
+                    <br>
+                    for %%i in (*.csv) do (set fname=%%i) & call :passo1<br>
+                    goto :eof<br>
+                    <br>
+                    :passo1<br>
+                    <span style="margin-left:30px">ren "%fname%" "%fname:~6%"</span> <br>
+                          <br>   
+                    goto :eof<br>
+                        
+                </div>
+                
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Rename file modify last specific characters</div>
+                <div class="collapsible-body">
+                    @echo on<br>
+                    <br>
+                    ::change in file with 00001.csv in name  this 00001.csv with csv<br>
+                    <br>
+                    for %%a in (*00001.csv) do (<br>
+                    <span style="margin-left:30px">set file=%%a </span><br>
+                    <span style="margin-left:30px">ren "!file!" "!file:00001.csv=csv!"</span><br>
+                    )<br>
+                        
+                </div>
+                    
+            </li>
+  
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Copy file into specific folder </div>
+                <div class="collapsible-body">
+                    @echo off<br>
+                    <br>
+                    set "ok=ok"<br>
+                    set "ko=ko"<br>
+                    set "sourceok=ok.*"<br>
+                    set "sourceko=ko.*"<br>
+                    set "target=listaok.txt"<br>
+                    <br>
+                    setlocal enableDelayedExpansion<br>
+                    <br>
+                    mkdir %ok%<br>
+                    mkdir %ko%<br>
+                    del %ok%\listaok.txt <br>
+                    del %ko%\listako.txt <br>
+                    <br>
+                    for %%a in (ok.*) do ( <br>
+                    <span style="margin-left:30px">copy /Y  %sourceok%   %ok%\%sourceok% </span><br>
+                    <span style="margin-left:30px">@echo   %%a >> %ok%\listaok.txt </span><br>
+                    <br>
+                    )<br>
+                    <br>
+                    for %%a in (ko.*) do ( <br>
+                    <span style="margin-left:30px"> copy /Y  %sourceko%   %ko%\%sourceko% </span><br>
+                     <span style="margin-left:30px"> @echo   %%a >> %ko%\listako.txt </span><br>
+                       
+                    )<br>
+                    <br>
+                    
+                    endlocal<br>
+                </div>
+                    
+            </li>  
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Create file with only cksum MD5 </div>
+                <div class="collapsible-body">
+                    @Echo off <br>
+                    :: create file cksum filter others word 
+                    <br>
+                    Set "MD5=" <br>
+                    <br>                   
+                    for %%f  in (*.zip) do ( <br>
+                    <span style="margin-left:30px">certutil -hashfile "%%f" MD5  | find /i /v "md5" | find /i /v "certutil" >> %%f.sum</span><br>
+                      <br>
+                    ) <br>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Append files into new file with copy </div>
+                <div class="collapsible-body">
+                    @Echo off <br>
+                    :: create new csv file  
+                    <br>
+                    <br>                   
+                    for %%f  in (*.csv) do ( <br>
+                    <span style="margin-left:30px">copy *.csv newfile.csv </span>  <br>
+                    ) <br>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Replace substring with other string into file  </div>
+                <div class="collapsible-body">
+                    @Echo off <br><br>
+                    SetLocal EnableDelayedExpansion<br>
+                    <br>
+                    set "substring = good"<br>
+                    set "newsub = bad"<br>
+                    <br>
+                    :: skip first line <br>
+                    for /f  "tokens=1 skip=1 delims=;" %%G in (nomefile.csv) do (<br>
+                           set linea=%%G<br>
+                           :: sostituisce word e riscrive sullo stesso file<br>
+                           echo. !linea:%substring%=%newsub%!  > nomefile.csv<br><br>
+                           :: sostituisce sustring con stringa vuota su nuovo file<br>
+                           echo. !linea:%substring%=!   >> nomefile.csv<br>
+                           
+                    )<br>
+                    <br>
+                    EndLocal<br>
+                    <br>
+                    
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="fa fa-terminal" aria-hidden="true"></i> Select all files in one directory  </div>
+                <div class="collapsible-body">
+                    @Echo off <br><br>
+                    SetLocal EnableDelayedExpansion<br>
+                    <br>
+                    set "substring = good"<br> 
+                    <br>
+                    :: skip first 3 files <br>
+                    for /f "tokens=1,3 skip=3 delims=;" %%G in ('dir/b  ^"*.csv^"') do ( <br>
+                    rem copio solo le linee che non contengono stringa indicata <br>
+                    findstr /V  %substring%  > %%G  <br>
+                    
+                 
+                 ) <br>
+                 <br>
+                 EndLocal <br>
+                        
+                </div>
+            </li>
+        </ul>
+
+        <div class="col s12 m12 l12">
+
+            <div class="ubuntu center" id="Alinux">
                 Linux Ubuntu
             </div>
         </div>
