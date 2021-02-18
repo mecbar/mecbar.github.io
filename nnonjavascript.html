@@ -41,31 +41,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital@1&display=swap" rel="stylesheet"> 
     
 </head>
-<style>
-img {
-   opacity: 1;
-   transition: opacity 0.3s;
-}
-img[data-src] {
-   opacity: 0;
-}
-</style>
-<script>
-$( document ).ready(function() {
-   [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
-         img.setAttribute('src', img.getAttribute('data-src'));
-         img.onload = function() {
-            img.removeAttribute('data-src');
-         };
-   });
-});
 
-
-
-</script>
-
-<body>  
-    <nav>
+ <nav>
         <li class="nav-wrapper back-home" id="head">
             <a href="https://www.mecbar.com/" class="aabrand-logo mecbar">
                 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -400,30 +377,249 @@ $( document ).ready(function() {
             </ul>
             </li>
 </nav>
+<style>
+   canvas {
+  position: relative;
+  border: 2px solid rgba(222, 222, 248, 0.842);
+  margin: 50px;
+  background-color:black;
+}
+ .pred {
+  border: 2px solid rgba(36, 36, 204, 0.842);
+  padding:80px;
+  background-color: #fff;
+  color:black;
+  font-size: 50px;
+  line-height: 50px;
+  text-align:center;
+  vertical-align:middle;
+height: 200px;
+margin-top:50px;
+margin-right: 50px;
+ }
+ .mlFlex {
+    background-color:#fff;
+    height : 400px;
+ }
+ .bottone:hover {
+   box-shadow: 0 12px 16px 10px rgba(250, 250, 255, 0.616), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+ }
+ .testo {
+    line-height:22px;
+    margin:15px;
+ }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
 
 <script>
- async function myFun() {
+ 
+ async function prediction(data) {
     const session = new onnx.InferenceSession()
-    await session.loadModel('rf_GradientBoost.onnx')
-    const input = new onnx.Tensor(new Int64Array(1 * 8), 'Int', [8])
-    const outputMap = await session.run([input])
+    await session.loadModel('https://www.mecbar.com/model/mnist_pytorch.onnx')
+    //console.log(data)
+    //const iinnpp = getInputs()
+   // array([32047,    36,     8,     1,     2,     0,  -253,     1])
+ //  const  iInputs = [ new onnx.Tensor(new Float32Array([5.1, 3.5, 1.4, 0.2,1,2,0,7]), "float32", [1, 8] ) ];
+  //  const input = [ new onnx.Tensor(new Int64Array(1*8), 'Int64', [1, 8])]
+    
+   //const inputs =  new onnx.Tensor(new Float32Array(280*280*4), "float32", [280 * 280 * 4]) 
+    var inputs = new onnx.Tensor(new Float32Array(data), "float32")
+   //const inputs = new onnx.Tensor(new Float32Array(data), "float32");
+    const outputMap = await session.run([inputs])
     const outputTensor = outputMap.values().next().value 
-    console.log('Output tensor: ${outputTensor.data}')
-
+    var pre = Math.max(...outputTensor.data)
+    var index = outputTensor.data.indexOf(Math.max(...outputTensor.data))
+    console.log('Output tensor: ',  outputTensor.data, pre, index)
+    $("#prediction").html(index);
  }
-myFun()
+//prediction()
+
 </script>
+<body>
 
-<div style="position: relative; height:400px; width:100%">
-    <div class="testo" style="color:blue;text-align: center;">
-  MODEL PYTHON MACHINE LEARNING IN JAVASCRIPT
 
-    </div>
-    <div id="table" style="width: 100%; height: auto;"></div>
-    <div id="pie" style="width: 100%; height: auto;"></div>
+ <div class="testo" style="color:blue;text-align: center;">
+  MODEL PYTHON MACHINE LEARNING IN JAVASCRIPT CON ONNX
+</div>
+<div class="testo">
+   Vediamo come è possibile eseguire dei modelli di Machine Learning/Deep Learning creati in Python nel browser in Javascript 
+dopo averli esportati con ONNX.
+ONNX è un acronimo per Open Neural Network Exchange ed è un open standard per convertire un modello in creato in python in Javascript 
+per poter essere eseguito in un browser o con NodeJs. 
+Nel riquadro sottostante disegnare un mumero e dopo aver premuto su PREDICTION nel riquadro a destra comparirà il 
+risultato del modello NN creato con PyTorch con il dataset MNIST. 
+</div>
+<div class="row">
+   <div class="col l4 m12 s12">
+    <canvas id="canvas" width="280" height="280"></canvas>
+   </div>
+   <div class="col l4 m12 s12">
+      <br>   <br> 
+   <button id="clearButton" class="bottone">Clear</button>
+   <br>   <br> 
+   <button id="doPrev" class="bottone">Prediction</button> 
+   </div>
+   <div class="col l4 m12 s12">
+      <br>   <br>   PREDICTION<br>
+   
+ <div id="prediction" class="pred">
+ </div>
+
+   </div>
+
+</div>
+<div class="testo">
+ Dopo aver creato il modello con PyTorch vediamo i passaggi da eseguire per convertire il modello 
+ in Javascript.  
+</div>
+ <div class="quad">
+ import torch.onnx<br>
+ <br>
+ modello.load_state_dict(torch.load('model.pt'))<br>
+ <br>
+# set the model to inference mode<br>
+modello.eval()<br>
+<br>
+# Input to the model<br>
+x = torch.zeros(280 * 280 * 4)  # array proveniente da canvas con 4 dimensioni( Red - Green - Blue - Alpha)
+modelloJs = modello(x)   # verifica funzionamento modello<br>
+<br>
+# Export the model<br>
+torch.onnx.export(modello, x , 'modelloJs.onnx')<br>
+ </div>
+ <div class="testo">
+poi in Html <br>
+ </div>
+<div class="quad">
+<script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
+<br>
+const session = new onnx.InferenceSession()<br>
+await session.loadModel('modello')<br>
+<br>
+var inputs = new onnx.Tensor(new Float32Array(data), "float32")<br>
+const outputMap = await session.run([inputs])<br>
+const previsione = outputMap.values().next().value <br>
 </div>
 
 
+
+
 </body>
+<script>
+   // Disegna numero 
+  const dim = 280
+
+  //const getCanvas = document.getElementById('canvas');
+  //const ctx1 = getCanvas.getContext('2d');
+  //console.log(ctx1)
+  
+  class drawNumber {
+    constructor() {
+      this.initCanvas()
+      this.initEventi()
+      this.initGest()
+    }
+     
+   
+
+
+    initCanvas() {
+      this.canvas = document.getElementById('canvas')
+      this.ctx = this.canvas.getContext("2d")
+      this.isMouseClicked = false
+      this.isMouseInCanvas = false
+      this.prevX = 0
+      this.currX = 0
+      this.prevY = 0
+      this.currY = 0
+    }
+  
+    initEventi() {
+      $('#canvas').on("mousemove", (e) => this.onMouseMove(e))
+      $('#canvas').on("mousedown", (e) => this.onMouseDown(e))
+      $('#canvas').on("mouseup", () => this.onMouseUp())
+      $('#canvas').on("mouseout", () => this.onMouseOut())
+      $('#canvas').on("mouseenter", (e) => this.onMouseEnter(e))
+    }
+    
+    onMouseDown(e) {
+       this.isMouseClicked = true
+      this.updateCurrentPosition(e)
+    }
+    
+    onMouseUp() {
+       this.isMouseClicked = false
+    }
+    
+    onMouseEnter(e) {
+       this.isMouseInCanvas = true
+      this.updateCurrentPosition(e)
+    }
+    
+    onMouseOut() {
+       this.isMouseInCanvas = false
+    }
+  
+    onMouseMove(e) {
+      if (this.isMouseClicked && this.isMouseInCanvas) {
+         this.updateCurrentPosition(e)
+        this.draw()
+      }
+    }
+    
+    updateCurrentPosition(e) {
+        this.prevX = this.currX
+        this.prevY = this.currY
+        this.currX = e.clientX - this.canvas.offsetLeft
+        this.currY = e.clientY - this.canvas.offsetTop
+    }
+    
+    draw() {
+      this.ctx.beginPath()
+      this.ctx.moveTo(this.prevX, this.prevY)
+      this.ctx.lineTo(this.currX, this.currY)
+      this.ctx.strokeStyle = "white"
+      this.ctx.lineWidth = 10
+      this.ctx.stroke()
+      this.ctx.closePath()
+    }
+
+
+    initGest() {
+      document.getElementById("clearButton").onclick = function clearCanvas(e) {
+         this.canvas = document.getElementById('canvas')
+         this.ctx = this.canvas.getContext("2d")
+         this.ctx.clearRect(0,0, dim, dim);
+         $("#prediction").html('');
+      }
+
+      document.getElementById("doPrev").onclick = function doPrediction(e) {
+         this.canvas = document.getElementById('canvas')
+         this.ctx = this.canvas.getContext("2d")
+         var inputData =  this.ctx.getImageData(0,0,dim,dim) ;
+         //inputData =  inputData.scale(0.1, 0.1)
+         /*
+         var data = inputData.data
+         for (var i = 0; i < data.length; i += 4) {
+            var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+            data[i]     = avg; // red
+            data[i + 1] = avg; // green
+            data[i + 2] = avg; // blue
+         }
+         console.log('red' , data)
+         console.log('img in', inputData.data);
+         */
+         prediction(inputData.data);
+     }
+    }
+
+
+  }
+  
+  var canvas = new drawNumber()
+
+
+ 
+
+    </script>
 </html>
