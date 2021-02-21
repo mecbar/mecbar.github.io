@@ -21,7 +21,6 @@
     <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="https://fonts.googleapis.com/css?family=Raleway|Satisfy" rel="stylesheet">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
@@ -42,32 +41,17 @@
     
 </head>
 <style>
-img {
-   opacity: 1;
-   transition: opacity 0.3s;
+.testo {
+margin: 0px;
 }
-img[data-src] {
-   opacity: 0;
-}
+
 </style>
-<script>
-$( document ).ready(function() {
-   [].forEach.call(document.querySelectorAll('img[data-src]'), function(img) {
-         img.setAttribute('src', img.getAttribute('data-src'));
-         img.onload = function() {
-            img.removeAttribute('data-src');
-         };
-   });
-});
 
-
-
-</script>
 
 <body>  
-    <nav>
-        <li class="nav-wrapper back-home" id="head">
-            <a href="https://www.mecbar.com/" class="aabrand-logo mecbar">
+ <nav>
+   <li class="nav-wrapper back-home" id="head">
+     <a href="https://www.mecbar.com/" class="aabrand-logo mecbar">
                 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
                 <svg 
                    xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
@@ -400,25 +384,53 @@ $( document ).ready(function() {
             </ul>
             </li>
 </nav>
-<div style="position: relative; height:400px; width:100%">
+<div style="position: relative; height:auto; width:100%">
     <div class="testo" style="color:blue;text-align: center;">
-     Capitalizzazione di mercato delle principali cryptoCurrency in USA Dollar del 6 Febbraio 2021  
+     Inserimento di una tabella presa da un foglio Excel contentente la capitalizzazione di 
+     mercato di alcune cryptoCurrency in USA Dollar del 6 Febbraio 2021  
 
     </div>
-    <div id="pie" style="width: 100%; height: auto;"></div>
+    <div class="row">
+      <div class="col l6 m12 s12">
+         <br><br>
+         <div class="testo">
+       Import libreria DanfoJs 
+         </div>
+       https://cdn.jsdelivr.net/npm/danfojs@0.2.2/lib/bundle.min.js
+      </div>
+  
+      <div class="col l6 m12 s12">
+         <br><br>
+         <div class="testo">
+      Script imput uno sheet in foglio excel con tabella in html
+         </div> 
+      
+      const URL = "https://www.xxxxxx.xxx/xxxx.xlsx";<br>
+
+         dfd.read_excel({ source: URL , sheet_name : 'xxxxx' }).then(df1 => {<br>
+            df1.plot("table").table()<br>
+        })
+      </div>
+    </div>
 </div>
+    <div id="table" style="width: 99%; height: auto;"></div>
+ 
+
 
 
 </body>
-<script src="https://cdn.jsdelivr.net/gh/opensource9ja/danfojs@latest/lib/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/danfojs@0.2.2/lib/bundle.min.js"></script>
 
 <script>
+   //const input  = '/home/mecbar/develop/Mecbar/crypto_list.xlsx';
+   
+   const input  = 'https://www.mecbar.com/crypto_list.xlsx';
 
-    const input  = 'https://www.mecbar.com/crypto_list.xlsx';
-    dfd.read_excel({ source: input }).then(df => {
-        df.plot("pie").table()
+  
+
+    dfd.read_excel({ source: input , sheet_name : 'cap' }).then(df1 => {
+        df1.plot("table").table()
     })
-
      
 </script>
 
