@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Satisfy" rel="stylesheet">
+  
+ 
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital@1&display=swap" rel="stylesheet"> 
+ 
+</head>
+
+<style>
+ 
+ .bottone:hover {
+   box-shadow: 0 12px 16px 10px rgba(250, 250, 255, 0.616), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+ }
+ .testo {
+    line-height:22px;
+    margin:15px;
+ }
+ .fondo {
+    background-color:#000;
+     color: #fff;
+     padding-top: 50px !important;
+     padding:3% !important;
+     height:500px;
+     font-size: 15px;
+ text-align: left;
+ }
+ .testo {
+     color:#c6126a;
+ }
+
+ label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+input[type="file"] {
+    border-bottom: 2px solid #03b671 !important;
+    border-left: 2px solid #03b671 !important;
+    box-shadow: 0 2px 5px 0 #03b671 !important;
+    margin:55px;
+    margin-right: 250px;
+}
+
+select {
+    border-bottom: 2px solid #03b671 !important;
+    border-left: 2px solid #03b671 !important;
+    box-shadow: 0 2px 5px 0 #03b671 !important;
+}
+
+.Excel {
+line-height:15px;
+margin: 10px;
+margin-left: 50px;
+font: 1rem 'Fira Sans', sans-serif;
+color:#4b10d4;
+
+}
+
+.Excel1 {
+line-height:15px;
+margin: 15px;
+margin-left: 50px;
+font: 1rem 'Fira Sans', sans-serif;
+color:#c6126a;
+}
+
+#py {
+    margin:30px;
+}
+.blog-btn-espandi {
+   margin-left: 100px;
+}
+.errore {
+   margin-left: 300px;
+   margin-top: 50px;
+   font-size: 20px;
+   color: blue;
+}
+th {
+    color:#c6126a;
+    text-align: center;
+}
+th:hover {
+    color:#12c62a;
+}
+tr {
+    color:#030303;
+    text-align: right;
+}
+tr:hover {
+    color:#ffffff;
+    background-color: #c6126a;
+}
+
+
+.button {
+    background-color: #000;
+    color:#fff;
+    margin-left:30px;
+    appearance: auto;
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));
+    box-sizing: border-box;
+    margin: 1em;
+    font: 400 13.3333px Arial;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}
+
+.button:hover {
+    background-color: #fff;
+    color:#000;
+}
+.spanne {
+    font-size: 25px;
+    color:#c6126a;
+}
+.selected {
+    background-color: #000;
+    color : #fff;
+}
+#msgerr {
+    margin-left: 30px; 
+}
+</style>
+<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+
+<body>
+
+
+ <div class="testo" style="color:blue;text-align: center;">
+  IMPORT EXCEL FILE 
+</div>
+
+<div id="ins">
+  <input type="file"  id="file"  accept=".xls, .xlsx" />
+  <input type="button" id="Upload" class="button" value="Upload File" onclick="Upload()" />
+</div>
+<div id="nomeS" class="Excel"></div> 
+<div id="eccezioni" class="Excel"></div> 
+<div id="myForm" class="Excel" hidden>
+    <span id="view">
+        <select id="opt"> </select>
+        <button name="sele" class="button" id="sele"> View Sheet  </button>
+      
+        </span>
+    <span id="graf" class="graf">
+        <span  class="button" id="sele2"> Seleziona Grafico   </span>
+        <select id="opt2" disabled> </select>
+      
+    </span>   
+    <span id="graf2" class="graf">
+        <span  class="button" id="ckbox"> Seleziona Grafico personalizzato </span>
+        <select id="opt3" disabled> </select>
+    </span>
+
+    <span id="msgerr"></span>
+      
+</div>
+
+  <div id="Excel" class="Excel1"></div>
+  <div id="df"></div>
+</body>
+
+
+
+<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/danfojs@0.2.4/lib/bundle.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+<script type="text/javascript">
+  
+  (function(){
+    $('#myForm').hide();
+    $('#view').hide();
+    this.dataf ;
+    this.listaGraf = ['line','bar','pie','scatter','bubble'];
+   this.workbook ;
+   this.filename;
+   this.opzioni;
+   $("#eccezioni").hide();
+   this.data;
+   this.colonne = []
+   this.listaEccezioni = []
+   this.listaNomi = []
+   this.tabelle = []
+   var cercaIndice
+   var tabe2, tabe22, a
+   var table
+   var selCol
+   this.coArra = []
+   var colValori, arra,dfarra, columns
+   this.merror = 'Non riesco a creare questo grafico'
+}());
+     
+    function Upload() {
+      
+        var fileUp = document.getElementById("file");
+        filename = fileUp.value;
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+        if (regex.test(fileUp.value.toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+ 
+                //For Browsers other than IE.
+                if (reader.readAsBinaryString) {
+                    reader.onload = function (e) {
+                        data = e.target.result;
+                        EstraiDatidaExcel(data);
+                    };
+                    reader.readAsBinaryString(fileUp.files[0]);
+                } else {
+                    //For IE Browser.
+                    reader.onload = function (e) {
+                        
+                        var bytes = new Uint8Array(e.target.result);
+                        for (var i = 0; i < bytes.byteLength; i++) {
+                            this.data += String.fromCharCode(bytes[i]);
+                        }
+                        EstraiDatidaExcel(data);
+                    };
+                    reader.readAsArrayBuffer(fileUp.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Problem with your file. Upload a valid Excel file.");
+        }
+    };
+    
+    
+
+    function EstraiDatidaExcel(data) {
+        $("#ins").hide();
+        
+        //Read the Excel File data in binary
+        workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+        
+        for (var i1 = 0; i1 < workbook.SheetNames.length; i1++) {
+            
+            //get the name of First Sheet.
+            var nom = workbook.SheetNames[i1]
+            
+            //Read all rows from First Sheet into an JSON array.
+            excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[nom]);
+            //console.log(excelRows, i1)
+            //Create a HTML Table element.
+            if (excelRows.length == 0 ) {
+               
+                listaEccezioni.push(nom);
+                tableMsg = ' Foglio Excel non standard non riesco a trasformarlo !'
+                //alert(tableMsg)
+            } else {
+                    listaNomi.push(nom);
+                    var col = Object.keys(excelRows[0])
+                    colonne.push(col) //prendo nomi header
+                   
+                    var table  = document.createElement("table");                  
+                    table.border = "1";
+
+                    var header = table.createTHead();
+                    var row = header.insertRow(0);
+  
+                    //Add the header cells.
+                    
+                    for (var i2 = 0; i2 < col.length; i2++) {
+                        var cell = row.insertCell(i2);
+                        cell.innerHTML = col[i2]
+                       // header = document.createElement("Th");
+                       // header.innerHTML = col[i2];
+                      // row.appendChild(header);       
+                    }
+                   
+                    var tbod = table.createTBody();
+                   
+                    //Add the data rows from Excel file.
+                    for (var i3 = 0; i3 < excelRows.length; i3++) {
+                        //Add the data row.
+                        var row = tbod.insertRow(-1);
+                        for (var j = 0; j < col.length; j++) {
+                
+                            cell = row.insertCell(-1);
+                            a = col[j]
+                            var context =  excelRows[i3][a]
+                            if (context == undefined ) {
+                                context = '';
+                            } 
+                            cell.innerHTML = context;
+                    }
+                   
+                    }
+            
+                    tabelle.push(table);
+               }
+            }
+            var nomeSheet = 'Stai visionando lo Sheet  ' + '<span class="spanne">' +  listaNomi[0] +  '</span>' + '   del file ' + '<span class="spanne">' + filename +  '</span>'
+            var Excelnome = document.getElementById("nomeS");
+            Excelnome.innerHTML = nomeSheet;
+           // Excelnome.appendChild(nomeSheet);
+           // celle(listaNomi[0]);
+            var ExcelTable = document.getElementById("Excel");
+            ExcelTable.innerHTML = "";
+
+            // ExcelTable.appendChild(tabelle[0]);
+
+
+            var ecc = ''
+            if (listaEccezioni.length > 0 ) {
+                for (var jj = 0; jj < listaEccezioni.length; jj++) {
+                   var ecc = ecc + '  ' + listaEccezioni[jj]
+                }
+                if (jj > 1 ) { 
+              var eccSheet = 'Dati non disponibili per gli sheet ' + '<span style="color:#000">' + ecc + '</span'
+                } else {
+                    var eccSheet = 'Dati non disponibili per lo sheet '  + '<span style="color:#000">' + ecc + '</span'
+                }
+              var Excelecc = document.getElementById("eccezioni");
+              Excelecc.innerHTML = eccSheet;
+              $('#eccezioni').show();
+            }
+       
+         $('#opt2').empty();
+             $.each(listaGraf, function(i, p) {
+                        $('#opt2').append($('<option></option>').val(p).html(p));
+                        $('#myForm').show();
+             });
+
+          $('#opt3').empty();
+             $.each(listaGraf, function(i, p) {
+                        $('#opt3').append($('<option></option>').val(p).html(p));
+                        $('#myForm').show();
+             });
+
+        if (listaNomi.length > 0 ) {
+            //console.log(listaNomi.length, 55)
+                $('#opt').empty();
+                    $.each(listaNomi, function(i, p) {
+                        $('#opt').append($('<option></option>').val(p).html(p));
+                        $('#view').show();
+         });
+        }
+  
+        let selButton = document.getElementById("sele");
+       
+        let itemList = document.getElementById("opt");
+        selButton.addEventListener("click", function() {
+             $('#opt2').removeAttr('disabled');
+             $("#df").hide(); 
+             $("#Excel").show(); 
+
+              opzioni = itemList.selectedOptions;
+              let output =  opzioni[0].value;
+              print('');
+            var nomeSheet = 'Dati dello Sheet ' + '<span class="spanne">' +  output  +  '</span>' + '   del file ' + '<span class="spanne">' + filename +  '</span>'
+            
+            var Excelnome = document.getElementById("nomeS");
+            Excelnome.innerHTML = nomeSheet;
+            //trovo indice per tabelle
+            celle(output)
+            addRow();
+
+           $('table').on( 'click', '#ck', function () {
+            //alert('Row ' + $(this).closest("tr").index());
+           // $(this).closest("td").addClass('selected')
+           $('#opt3').removeAttr('disabled');
+            
+            selCol =  $(this).closest("td").index();
+           
+            tabe2 =  $(this).closest('table');
+            coArra.push(selCol)
+           // selezione a deseleziona colonne un tabella
+            tabe2.find('tr').each(function() {
+             
+             if ($(this).find('td').eq(selCol).hasClass('selected')) {
+                $(this).find('td').eq(selCol).removeClass('selected');
+                coArra = removeCol(coArra, selCol)
+             
+               } else {
+                $(this).find('td').eq(selCol).addClass('selected');
+
+               };  
+           
+        });   
+        
+     
+    })
+
+        let selGraf = document.getElementById("graf");
+        var grafList = document.getElementById("opt2");
+       
+        selGraf.addEventListener("click", function() {
+              print('');
+              var opzGraf = grafList.selectedOptions;
+              var grafico =  opzGraf[0].value;
+              //console.log(grafico);
+              grafici(grafico, arra);
+            
+     })
+
+     let selGraf2 = document.getElementById("graf2");
+        var grafList2 = document.getElementById("opt3");
+       
+        selGraf2.addEventListener("click", function() {
+              print('');
+              var opzGraf2 = grafList2.selectedOptions;
+              var grafico2 =  opzGraf2[0].value;
+              //console.log(grafico);
+              ckecker2(grafico2)
+              
+            
+     })
+
+
+});
+}
+
+
+   function grafici(grafico, array ,columns) {
+      
+      df = new dfd.DataFrame(array)
+      
+      console.log(columns,grafico,df ,20);
+      
+      var layout = {
+                    title: 'Custom chart',
+                    xaxis: {
+                        title: 'Columns Data',
+                    },
+                    yaxis: {
+                        title: 'Count',
+                    }
+                }
+
+     $("#Excel").hide(); 
+      $("#df").show(); 
+      switch (grafico) {
+                case 'line':
+                  try  {
+                  //  df.set_index({ key: "Id" })
+                    df.plot('df').line({ layout : layout }) ;
+                  } catch {
+                    print(merror);
+                  }
+                    break;
+                case 'bar':
+                try  {
+                    console.log(columns)
+                    df.plot('df').bar({ layout : layout }) ;
+                  } catch  {
+                    print(merror);
+                  }
+                   break;
+                case 'pie':
+                try  {
+                    df.plot('df').pie({ layout : layout });
+                  } catch  {
+                    print(merror);
+                  }
+                    break;
+                case 'scatter':
+                try  {
+                    df.plot('df').scatter({ layout : layout });
+                  } catch  {
+                    print(merror);
+                  }
+                    break;
+                case 'bubble':
+                try  {
+                    df.plot('df').markers({ layout : layout });
+                  } catch  {
+                    print(merror);
+                  }
+                    break;
+                    
+                default:
+                    console.log(merror)
+                    break;
+                }
+
+   }
+
+    function celle(output) {
+        cercaIndice = (element) => element == output;
+
+        let ix = listaNomi.findIndex(cercaIndice);            
+        var ExcelTable = document.getElementById("Excel");
+        ExcelTable.innerHTML = "";
+        ExcelTable.appendChild(tabelle[ix]);
+        dataf = tabelle[ix].innerText;
+        //console.log(dataf)
+        // df = new dfd.DataFrame(dataf)
+        nrows = tabelle[ix].rows.length
+        ncell = tabelle[ix].rows[0].cells.length
+        arra = Array.from(Array(nrows), () => new Array(ncell));  // array n x m
+       //console.log(nrows,ncell )
+        for (var i = 0; i < nrows ; i++) {
+            for (var j = 0; j < ncell; j++) {
+                console.log(i,j )
+                arra[i][j] = tabelle[ix].rows[i].cells[j].innerText
+            }
+
+        }
+        addRow(ncell);
+      
+        };
+
+
+       function print(merror, id="msgerr") {
+          var messaggio  = document.getElementById(id);
+            messaggio.innerHTML = merror;
+          var mesdf  = document.getElementById('df');
+            mesdf.innerHTML = '';   
+       }
+
+
+
+ 
+    function addRow(ncell) {
+        var inck = '<input type="checkbox" id="ck" />';
+        var ck = document.createElement("INPUT");
+        ck.setAttribute("type", "checkbox"); 
+        let tableRef = document.getElementsByTagName('table');
+        console.log(tableRef, 33);
+        let newRow = tableRef[0].insertRow(1);
+        for (var j = 0; j < ncell; j++) {
+           var newCell = newRow.insertCell(j);
+           newCell.innerHTML = inck
+           //appendChild(ck);
+        }
+   
+};
+
+function ckecker2(grafico) {
+
+    //dati = Array.from(Array(), () => new Array());  // array n x m
+    dati = []
+    columns = [] ;  
+    colValori = document.getElementsByClassName('selected');
+    var arraycol = Array.from(colValori);
+    coArra.sort();
+
+    for (i=0; i < coArra.length; i++) {
+         a = coArra[i]
+         var eldata = [];
+         var el = arraycol.filter(findEl)
+         for (j=0; j < 1 ; j++) {
+             columns.push(el[j].innerHTML)
+         }
+         for (j=2; j < el.length; j++) {
+             eldata.push(el[j].innerHTML)
+         }
+       //  var e = el.innerHTML
+         dati.push(eldata)
+         console.log(dati, 5)
+    }  
+    try {
+       dfarra = Array.from(Array(dati[0].length), () => new Array(dati.length));  // array n x m
+    } catch {
+        print('Seleziona una colonna prima di chiedere un grafico custom')
+    }
+    for (var i = 0; i < dati.length ; i++) {
+            for (var j = 0; j <dati[0].length; j++) {
+                //console.log(i,j, dati[i][j])
+                dfarra[j][i] = dati[i][j]
+            }
+            
+        } 
+ 
+    grafici(grafico, dfarra, columns)
+    
+  }
+
+  function findEl(element) {
+     return element.cellIndex === a;
+  }
+
+  function removeCol(array, col) {
+     try {
+      var index = array.indexOf(col);
+      if (index > -1) {
+         array.splice(index, 1);
+     } 
+     } catch {
+       return array
+     }
+    return array;
+   }
+
+
+
+</script>
+</html>
