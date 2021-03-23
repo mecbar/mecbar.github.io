@@ -10,11 +10,12 @@
   
  
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
-
+  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital@1&display=swap" rel="stylesheet"> 
- 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
 </head>
 
 <style>
@@ -58,10 +59,10 @@ select {
 }
 
 .Excel {
-line-height:15px;
+line-height:19px;
 margin: 10px;
 margin-left: 50px;
-font: 1rem 'Fira Sans', sans-serif;
+font: 15px 'Fira Sans', sans-serif;
 color:#4b10d4;
 
 }
@@ -124,6 +125,7 @@ tr:hover {
     box-sizing: border-box;
     margin: 1em;
     font: 400 13.3333px Arial;
+    font-size: medium ;
     padding: 1px 6px;
     border-width: 2px;
     border-style: outset;
@@ -146,8 +148,15 @@ tr:hover {
 #msgerr {
     margin-left: 30px; 
 }
+.asse {
+    background-color: #09cae4 !important;
+}
+.canv {
+    margin-top: 50px;
+}
 </style>
-<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+
+
 
 <body>
 
@@ -166,40 +175,39 @@ tr:hover {
     <span id="view">
         <select id="opt"> </select>
         <button name="sele" class="button" id="sele"> View Sheet  </button>
-      
-        </span>
-    <span id="graf" class="graf">
-        <span  class="button" id="sele2"> Seleziona Grafico   </span>
-        <select id="opt2" disabled> </select>
-      
-    </span>   
-    <span id="graf2" class="graf">
-        <span  class="button" id="ckbox"> Seleziona Grafico personalizzato </span>
-        <select id="opt3" disabled> </select>
     </span>
-
+ 
+    <span id="graf2" class="graf">
+        <select id="opt3" disabled > </select>
+        <button  id="ckbox"  name="ckbox" class="button">Crea Grafico </button>
+    </span>
+    <span id="graf4" class="graf4">
+        <span  class="button" id="ckbox4"> Seleziona Asse X con il secondo checkbox</span>
+    </span>
     <span id="msgerr"></span>
       
 </div>
 
   <div id="Excel" class="Excel1"></div>
-  <div id="df"></div>
+  <br>
+  <div class="canv">
+  <canvas id="df" width="400" height="100" hidden></canvas>
+  </div>
+ 
+
+
 </body>
 
 
-
-<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script> 
-<script src="https://cdn.jsdelivr.net/npm/danfojs@0.2.4/lib/bundle.min.js"></script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
 <script type="text/javascript">
   
   (function(){
     $('#myForm').hide();
     $('#view').hide();
+    $('#df').hide();
+    $('#ckbox4').hide();
     this.dataf ;
-    this.listaGraf = ['line','bar','pie','scatter','bubble'];
+    this.listaGraf = ['line','bar','pie','doughnut','horizontalBar'];
    this.workbook ;
    this.filename;
    this.opzioni;
@@ -212,9 +220,9 @@ tr:hover {
    var cercaIndice
    var tabe2, tabe22, a
    var table
-   var selCol
+   var selCol, output
    this.coArra = []
-   var colValori, arra,dfarra, columns
+   var colValori, arra,dfarra, columns, dati, X
    this.merror = 'Non riesco a creare questo grafico'
 }());
      
@@ -347,17 +355,12 @@ tr:hover {
               $('#eccezioni').show();
             }
        
-         $('#opt2').empty();
-             $.each(listaGraf, function(i, p) {
-                        $('#opt2').append($('<option></option>').val(p).html(p));
-                        $('#myForm').show();
-             });
-
-          $('#opt3').empty();
+             $('#opt3').empty();
              $.each(listaGraf, function(i, p) {
                         $('#opt3').append($('<option></option>').val(p).html(p));
                         $('#myForm').show();
              });
+    
 
         if (listaNomi.length > 0 ) {
             //console.log(listaNomi.length, 55)
@@ -368,16 +371,34 @@ tr:hover {
          });
         }
   
+    let selGraf2 = document.getElementById("opt3");
+    var grafList2 = document.getElementById("ckbox");
+       
+    grafList2.addEventListener("click", function() {
+             print('');
+             var opzGraf2 = selGraf2.selectedOptions;
+             var grafico2 =  opzGraf2[0].value;
+             console.log(grafico2);
+             ckecker2(grafico2)    
+           
+    })
+
         let selButton = document.getElementById("sele");
        
         let itemList = document.getElementById("opt");
         selButton.addEventListener("click", function() {
-             $('#opt2').removeAttr('disabled');
+            // $('#opt2').removeAttr('disabled');
              $("#df").hide(); 
+            coArra = [] 
              $("#Excel").show(); 
-
+             $('#graf4').show();
+             $('#ckbox4').show();
+             $('td').removeClass('selected')
+             $('td').removeClass('ck2')
+             $('[type=checkbox]').prop("checked", false);
+           //  $('input:checkbox').attr('checked',false);
               opzioni = itemList.selectedOptions;
-              let output =  opzioni[0].value;
+              output =  opzioni[0].value;
               print('');
             var nomeSheet = 'Dati dello Sheet ' + '<span class="spanne">' +  output  +  '</span>' + '   del file ' + '<span class="spanne">' + filename +  '</span>'
             
@@ -386,12 +407,16 @@ tr:hover {
             //trovo indice per tabelle
             celle(output)
             addRow();
+            nomeCol = arra[0]
+           
+    
+
+
 
            $('table').on( 'click', '#ck', function () {
             //alert('Row ' + $(this).closest("tr").index());
            // $(this).closest("td").addClass('selected')
            $('#opt3').removeAttr('disabled');
-            
             selCol =  $(this).closest("td").index();
            
             tabe2 =  $(this).closest('table');
@@ -412,32 +437,21 @@ tr:hover {
         
      
     })
+    
+    $('table').on( 'click', '#ck2', function () { 
+                selCol2 =  $(this).closest("td").index();
+                $('#opt3').removeAttr('disabled');
+                tabe3 =  $(this).closest('table');
+                tabe3.find('tr').each(function() {
+                    $(this).find('td').eq(selCol2).addClass('ck2')
+            })
+        })
+ 
 
-        let selGraf = document.getElementById("graf");
-        var grafList = document.getElementById("opt2");
-       
-        selGraf.addEventListener("click", function() {
-              print('');
-              var opzGraf = grafList.selectedOptions;
-              var grafico =  opzGraf[0].value;
-              //console.log(grafico);
-              grafici(grafico, arra);
-            
-     })
+     //let selGraf2 = document.getElementById("graf2");
+     
 
-     let selGraf2 = document.getElementById("graf2");
-        var grafList2 = document.getElementById("opt3");
-       
-        selGraf2.addEventListener("click", function() {
-              print('');
-              var opzGraf2 = grafList2.selectedOptions;
-              var grafico2 =  opzGraf2[0].value;
-              //console.log(grafico);
-              ckecker2(grafico2)
-              
-            
-     })
-
+ 
 
 });
 }
@@ -528,8 +542,9 @@ tr:hover {
             }
 
         }
-        addRow(ncell);
-      
+        addRow(ncell,1);
+        addRow(ncell,2);
+
         };
 
 
@@ -538,18 +553,24 @@ tr:hover {
             messaggio.innerHTML = merror;
           var mesdf  = document.getElementById('df');
             mesdf.innerHTML = '';   
-       }
+         }
 
 
 
  
-    function addRow(ncell) {
-        var inck = '<input type="checkbox" id="ck" />';
+    function addRow(ncell, n) {
+        if (n == 1) {
+            var inck = '<input type="checkbox" id="ck" />';
+        }
+        if (n == 2) {
+            var inck = '<input type="checkbox" id="ck2"  class="asse"/>';
+        }
+       
         var ck = document.createElement("INPUT");
         ck.setAttribute("type", "checkbox"); 
         let tableRef = document.getElementsByTagName('table');
         console.log(tableRef, 33);
-        let newRow = tableRef[0].insertRow(1);
+        let newRow = tableRef[0].insertRow(n);
         for (var j = 0; j < ncell; j++) {
            var newCell = newRow.insertCell(j);
            newCell.innerHTML = inck
@@ -561,26 +582,37 @@ tr:hover {
 function ckecker2(grafico) {
 
     //dati = Array.from(Array(), () => new Array());  // array n x m
+    X = []
     dati = []
     columns = [] ;  
     colValori = document.getElementsByClassName('selected');
     var arraycol = Array.from(colValori);
+    console.log(arraycol, 3)
     coArra.sort();
-
+    console.log(coArra, 4)
     for (i=0; i < coArra.length; i++) {
          a = coArra[i]
          var eldata = [];
          var el = arraycol.filter(findEl)
+         console.log(el, 4)
          for (j=0; j < 1 ; j++) {
              columns.push(el[j].innerHTML)
          }
-         for (j=2; j < el.length; j++) {
+         for (j=3; j < el.length; j++) {
              eldata.push(el[j].innerHTML)
          }
        //  var e = el.innerHTML
          dati.push(eldata)
          console.log(dati, 5)
     }  
+    
+    
+    var cox =  document.getElementsByClassName('ck2');
+    var ac = Array.from(cox);
+    for (j=3; j < ac.length; j++) {
+             X.push(ac[j].innerHTML.slice(0,20))
+         }
+    
     try {
        dfarra = Array.from(Array(dati[0].length), () => new Array(dati.length));  // array n x m
     } catch {
@@ -588,13 +620,14 @@ function ckecker2(grafico) {
     }
     for (var i = 0; i < dati.length ; i++) {
             for (var j = 0; j <dati[0].length; j++) {
-                //console.log(i,j, dati[i][j])
+               
                 dfarra[j][i] = dati[i][j]
             }
             
         } 
- 
-    grafici(grafico, dfarra, columns)
+
+    draw(grafico, dati, columns, X) 
+    //grafici(grafico, dfarra, columns)
     
   }
 
@@ -614,7 +647,136 @@ function ckecker2(grafico) {
     return array;
    }
 
+function draw(grafico, datagra, columns, cox ) {
+
+   // $("#df").load(document.URL  + " #df")   # refresh solo parte 
+  
+   $('#df').remove();
+    $('.canv').prepend('<canvas id="df" width="400" height="100" hidden></canvas>')
+
+   $('#graf4').hide();
+    const backG = [ 'rgba(244, 198, 31, 1)',
+                    'rgba(200, 20, 50, 1)',
+                    'rgba(25, 59, 194, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(233, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+    ]
+  
+    const borderC = [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ]
+
+      dataset = []
+      dd = {};
+
+      for (i = 0 ; i < columns.length ; i++ ) {
+        dat = []
+        for ( j= 0 ; j < cox.length ; j++ ) {
+              dat.push(datagra[i][j])
+        }
+        dd = { data : dat ,
+                 label : columns[i] ,
+                 borderColor : borderC[i] ,
+                 backgroundColor : backG[i] ,
+                 fill : true
+        }
+  
+        dataset.push(dd)
+      }
+
+      var data =  {
+      labels: cox ,
+      datasets: dataset
+    }
+    
+    var title = 'Chart by sheet ' + output
+    let   options =  {
+      legend: { display: true },
+      title: {
+        padding: 20,
+        fontSize: 18,
+        fontColor: 'blue',
+        display: true,
+        text: title
+      } ,
+      events: ['mousemove']
+    }
+    console.log(myChart, 33)
+    if (myChart) {
+        myChart.destroy();
+    }
 
 
-</script>
+ 
+
+  if (grafico == 'pie' || grafico == 'doughnut' || grafico == 'horizontalBar' ) {
+      
+    $('#df').remove();
+    $('.canv').prepend('<canvas id="df" width="400" height="100" hidden></canvas>')
+    var canvas  = document.getElementById('df')
+    var ctx = canvas.getContext('2d');   // clear area canvas before draw
+    console.log(canvas.width, canvas.height, 100)
+  //  ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+   if (myChart || myChart2) {
+    myChart2.destroy();
+    myChart.destroy();   
+}
+    var myChart2 = new Chart(ctx,  {
+        type: grafico,
+        data: {
+        labels: cox ,
+        datasets: [{
+            label: "Chart",
+            backgroundColor: backG ,
+            data: dat 
+        }]
+        },
+        options: options
+    
+    })
+
+        //$('#df').hide();
+        $('#df').show();
+} else {
+    var canvas  = document.getElementById('df')
+    var ctx = canvas.getContext('2d');   // clear area canvas before draw
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  
+
+    var myChart = new Chart(ctx, {
+        type: grafico,
+        data: data, 
+        options: options })
+
+      
+        $('#df').show();
+    }
+
+
+  
+  $('#Excel').hide();
+  $("#opt3").attr('disabled', 'disabled');
+
+}
+
+
+
+    </script>
 </html>
