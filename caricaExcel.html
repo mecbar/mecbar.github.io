@@ -102,7 +102,31 @@ tr:hover {
     color:#ffffff;
     background-color: #c6126a;
 }
+thead tr td {
+    text-align: center;
+    color : blue;
+}
+thead tr td:hover {
+    color :#fff;
+}
 
+td  {
+    text-align: center;
+}
+table {
+    border-collapse: collapse;
+border:rgb(228, 14, 132) 2px solid;
+font-size: 20px;
+}
+.ck2 {
+    background-color: #7de6f8;  
+}
+tbody {
+    background-color: #fffbfb;   
+}
+thead {
+    background-color: #f0d0d0;   
+}
 
 .button {
     background-color: #000;
@@ -145,6 +169,17 @@ tr:hover {
     background-color: #000;
     color : #fff;
 }
+
+.seleRow {
+    background-color: rgb(7, 7, 7);
+    color : rgb(255, 255, 255);  
+}
+
+.selected.seleRow {
+    background-color: rgb(253, 157, 13);
+    color : rgb(18, 21, 211);
+}
+
 #msgerr {
     margin-left: 30px; 
 }
@@ -179,7 +214,7 @@ tr:hover {
  
     <span id="graf2" class="graf">
         <select id="opt3" disabled > </select>
-        <button  id="ckbox"  name="ckbox" class="button">Crea Grafico </button>
+        <button  id="ckbox"  name="ckbox" class="button" disabled>Crea Grafico </button>
     </span>
     <span id="graf4" class="graf4">
         <span  class="button" id="ckbox4"> Seleziona Asse X con il secondo checkbox</span>
@@ -207,7 +242,7 @@ tr:hover {
     $('#df').hide();
     $('#ckbox4').hide();
     this.dataf ;
-    this.listaGraf = ['line','bar','pie','doughnut','horizontalBar'];
+    this.listaGraf = ['line','bar','horizontalBar','pie','doughnut'];
    this.workbook ;
    this.filename;
    this.opzioni;
@@ -218,10 +253,11 @@ tr:hover {
    this.listaNomi = []
    this.tabelle = []
    var cercaIndice
-   var tabe2, tabe22, a
+   var tabe2, tabe22, a, tabeR
    var table
-   var selCol, output
+   var selCol, output , selRow
    this.coArra = []
+   this.coArraR = []
    var colValori, arra,dfarra, columns, dati, X
    this.merror = 'Non riesco a creare questo grafico'
 }());
@@ -292,8 +328,8 @@ tr:hover {
                     colonne.push(col) //prendo nomi header
                    
                     var table  = document.createElement("table");                  
-                    table.border = "1";
-
+                    //table.border = "1";
+                    table.noborder;
                     var header = table.createTHead();
                     var row = header.insertRow(0);
   
@@ -301,7 +337,12 @@ tr:hover {
                     
                     for (var i2 = 0; i2 < col.length; i2++) {
                         var cell = row.insertCell(i2);
+                        var stringa = col[i2]
+                        if ( stringa.includes("__EMPTY") ) {
+                            cell.innerHTML = "" ;
+                        } else {
                         cell.innerHTML = col[i2]
+                        }
                        // header = document.createElement("Th");
                        // header.innerHTML = col[i2];
                       // row.appendChild(header);       
@@ -390,13 +431,16 @@ tr:hover {
             // $('#opt2').removeAttr('disabled');
              $("#df").hide(); 
             coArra = [] 
+            coArraR = [] 
              $("#Excel").show(); 
              $('#graf4').show();
              $('#ckbox4').show();
              $('td').removeClass('selected')
              $('td').removeClass('ck2')
+             $('td').removeClass('seleRow')
+             
              $('[type=checkbox]').prop("checked", false);
-           //  $('input:checkbox').attr('checked',false);
+             $('#ckbox').attr('disabled',true);
               opzioni = itemList.selectedOptions;
               output =  opzioni[0].value;
               print('');
@@ -421,13 +465,14 @@ tr:hover {
            
             tabe2 =  $(this).closest('table');
             coArra.push(selCol)
+            
            // selezione a deseleziona colonne un tabella
             tabe2.find('tr').each(function() {
              
              if ($(this).find('td').eq(selCol).hasClass('selected')) {
                 $(this).find('td').eq(selCol).removeClass('selected');
                 coArra = removeCol(coArra, selCol)
-             
+               
                } else {
                 $(this).find('td').eq(selCol).addClass('selected');
 
@@ -437,10 +482,41 @@ tr:hover {
         
      
     })
+
+    // SELECT ROWS
+    $('table').on( 'click', '#ckr', function () {
+            //alert('Row ' + $(this).closest("tr").index());
+           // $(this).closest("td").addClass('selected')
+           
+            selRow =  $(this).closest("tr").index();
+           console.log(selRow, 'Row')
+            //tabeR =  $(this).closest('table');
+            coArraR.push(selRow)
+       
+           // selezione a deseleziona rows  tabella
+           
+             if ( $(this).closest('tr').find('td').hasClass('seleRow')) {
+
+                $(this).closest('tr').find('td').removeClass('seleRow');
+                //coArraR = removeCol(coArraR , selRow)
+                coArraR = coArraR.filter(row => row !==  selRow);
+
+             } else {
+                $(this).closest('tr').find('td').addClass('seleRow');
+
+             }
+            
+           
+        });   
+        
+    
+
+
     
     $('table').on( 'click', '#ck2', function () { 
                 selCol2 =  $(this).closest("td").index();
                 $('#opt3').removeAttr('disabled');
+                $('#ckbox').removeAttr('disabled');
                 tabe3 =  $(this).closest('table');
                 tabe3.find('tr').each(function() {
                     $(this).find('td').eq(selCol2).addClass('ck2')
@@ -544,7 +620,7 @@ tr:hover {
         }
         addRow(ncell,1);
         addRow(ncell,2);
-
+        addCell(nrows)
         };
 
 
@@ -569,7 +645,7 @@ tr:hover {
         var ck = document.createElement("INPUT");
         ck.setAttribute("type", "checkbox"); 
         let tableRef = document.getElementsByTagName('table');
-        console.log(tableRef, 33);
+        console.log(tableRef, 3333);
         let newRow = tableRef[0].insertRow(n);
         for (var j = 0; j < ncell; j++) {
            var newCell = newRow.insertCell(j);
@@ -579,17 +655,81 @@ tr:hover {
    
 };
 
+
+function addCell(nrows) {
+        nrows +=2
+        var inck = '<input type="checkbox" id="ckr" />';
+        var int = ' Sel Rows';
+        var nulla = '';
+        var col = document.createElement("INPUT");
+        col.setAttribute("type", "checkbox"); 
+        let tableRef = document.getElementsByTagName('table');
+        console.log(tableRef, 333);
+        
+        for (var j = 0; j < nrows; j++) {
+           var newC = tableRef[0].rows[j];
+           var newCell = newC.insertCell(0);
+           if (j == 0) {
+            newCell.innerHTML = int;
+           } else  if (j == 1 || j == 2 ) {
+            newCell.innerHTML = nulla;
+           } else {            
+
+           newCell.innerHTML = inck
+            }
+        }
+
+}
+
+
+
+
 function ckecker2(grafico) {
 
     //dati = Array.from(Array(), () => new Array());  // array n x m
     X = []
     dati = []
     columns = [] ;  
+    if (coArraR.length > 0) {
+        coArraR.sort()
+        coArra.sort()
+        var Valori = document.getElementsByClassName('seleRow');        
+        var arrayRow = Array.from(Valori);
+        var ValCol = document.querySelectorAll("thead tr td.selected");      
+        var Coll = Array.from(ValCol);
+        console.log(Coll, 'coll')
+        for (k=0; k < Coll.length ; k++) {
+             columns.push(Coll[k].innerHTML)
+        }
+        var asseX =  document.getElementsByClassName('ck2 seleRow'); 
+        var  colu= Array.from(asseX)
+         
+        for (j=0; j < colu.length ; j++) {
+             X.push(colu[j].innerText)
+         }
+   
+        for (i=0; i < coArra.length; i++) {
+           a = coArra[i]
+           var eldata = [];
+           var el = arrayRow.filter(findEl)
+           console.log(el, 4)
+
+           for (j=0; j < el.length; j++) {
+              eldata.push(el[j].innerHTML)
+           }
+           //  var e = el.innerHTML
+           dati.push(eldata)
+           console.log(dati, columns, 5)
+        }
+        
+    } else {
     colValori = document.getElementsByClassName('selected');
     var arraycol = Array.from(colValori);
     console.log(arraycol, 3)
     coArra.sort();
     console.log(coArra, 4)
+    
+    
     for (i=0; i < coArra.length; i++) {
          a = coArra[i]
          var eldata = [];
@@ -604,15 +744,17 @@ function ckecker2(grafico) {
        //  var e = el.innerHTML
          dati.push(eldata)
          console.log(dati, 5)
-    }  
-    
-    
-    var cox =  document.getElementsByClassName('ck2');
-    var ac = Array.from(cox);
-    for (j=3; j < ac.length; j++) {
+        }
+         var cox =  document.getElementsByClassName('ck2');
+         var ac = Array.from(cox);
+         for (j=3; j < ac.length; j++) {
              X.push(ac[j].innerHTML.slice(0,20))
          }
     
+    
+   }
+ 
+    /*   PER DATAFRAME
     try {
        dfarra = Array.from(Array(dati[0].length), () => new Array(dati.length));  // array n x m
     } catch {
@@ -625,6 +767,7 @@ function ckecker2(grafico) {
             }
             
         } 
+    */
 
     draw(grafico, dati, columns, X) 
     //grafici(grafico, dfarra, columns)
@@ -635,22 +778,28 @@ function ckecker2(grafico) {
      return element.cellIndex === a;
   }
 
+
+
   function removeCol(array, col) {
      try {
       var index = array.indexOf(col);
-      if (index > -1) {
+      console.log(index, 'indice')
+      if (index >= 0 ) {
          array.splice(index, 1);
      } 
      } catch {
+        console.log(index, 'error')
        return array
      }
     return array;
    }
 
+
+
 function draw(grafico, datagra, columns, cox ) {
 
    // $("#df").load(document.URL  + " #df")   # refresh solo parte 
-  
+   console.log(datagra, columns, cox , 666)
    $('#df').remove();
     $('.canv').prepend('<canvas id="df" width="400" height="100" hidden></canvas>')
 
@@ -696,7 +845,7 @@ function draw(grafico, datagra, columns, cox ) {
         }
   
         dataset.push(dd)
-      }
+      } 
 
       var data =  {
       labels: cox ,
@@ -723,7 +872,7 @@ function draw(grafico, datagra, columns, cox ) {
 
  
 
-  if (grafico == 'pie' || grafico == 'doughnut' || grafico == 'horizontalBar' ) {
+  if (grafico == 'pie' || grafico == 'doughnut' ) {
       
     $('#df').remove();
     $('.canv').prepend('<canvas id="df" width="400" height="100" hidden></canvas>')
