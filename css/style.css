@@ -2004,31 +2004,51 @@ text-align: center;
         }
 
         .tasto-app {
-
             font-size: 21px !important;
-            writing-mode: tb-rl;
+           /* writing-mode: tb-rl;   scrittura verticale */
             white-space: nowrap;
             position: fixed;
             top: 300px;
             right: 0px;
-            width : auto !important;
-            transition: all 0.1s ease-in;
+            height:37px;
+            width: 83px !important;
+            transform: skew(0,10deg);
+            transition: all 2.1s ease-in-out;
             transform-origin: 0% 0%;
-            padding-top: 25px;
-            height: 120px !important;
-            padding-right: 3px;
-            padding-left: 3px;
+            padding: 3px;
             background: rgb(223, 10, 30);
             color: white;
-            border-top-left-radius: 0%;
-            border-top-right-radius: 0%;
-            border-bottom-left-radius: 0%;
-            border-bottom-right-radius: 0%;
+            border-top-left-radius: 1%;
+            border-top-right-radius: 1%;
+            border-bottom-left-radius: 1%;
+            border-bottom-right-radius: 1%;
             cursor: pointer;
             vertical-align: middle;
             z-index: 3;
         }
-
+        .tasto-exe {
+            font-size: 21px !important;
+           /* writing-mode: tb-rl;   scrittura verticale */
+            white-space: nowrap;
+            position: fixed;
+            top: 337px;
+            right: 0px;
+            height:37px;
+            width: 83px !important;
+            transform: skew(0,10deg);
+            transition: all 2.1s ease-in-out;
+            transform-origin: 0% 0%;
+            padding: 3px;
+            background: rgb(34, 161, 51);
+            color: white;
+            border-top-left-radius: 1%;
+            border-top-right-radius: 1%;
+            border-bottom-left-radius: 1%;
+            border-bottom-right-radius: 1%;
+            cursor: pointer;
+            vertical-align: middle;
+            z-index: 3;
+        }
         .mecbar {
             color: -moz-linear-gradient(144deg, rgba(196,0,0,1) 0%, rgba(0,0,0,1) 100%) !important; /* ff3.6+ */
             color: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(100%, rgba(196,0,0,1))) !important; /* safari4+,chrome */
