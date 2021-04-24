@@ -55,6 +55,9 @@ img {
 img[data-src] {
    opacity: 0;
 }
+.vert {
+    transform: skew(-10deg,7deg);
+}
 </style>
 <script>
 $( document ).ready(function() {
@@ -454,7 +457,7 @@ $( document ).ready(function() {
 
 <div id="quantum" class="backo-bordo1">
     <div class="backo">
-       <img src="foto/qc1.svg" width="50%" height="300px">
+       <img  class="vert" src="foto/qc1.svg" width="50%" height="300px">
     </div>
 </div>
 
@@ -2647,7 +2650,7 @@ Barren Plateau
     </div>
    
    <div class="appuntiCall">
-
+    <div onclick="callExcel()" id="tasto-exe" class="tasto-exe"  title="Excel">Excel</div>
     <div onclick="callAppunti()" id="tasto-app" class="tasto-app"  title="App">Appunti</div>
    </div>
    
