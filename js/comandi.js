@@ -26,7 +26,15 @@ function callAppunti() {
 
 }
 
+function callExcel() {
 
+
+ var url = "https://www.mecbar.com/excel_avanzato.html";
+
+ window.open(url, '_blank');
+
+
+}
 
 
 function closeChat() {
