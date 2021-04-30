@@ -36,6 +36,16 @@ function callExcel() {
 
 }
 
+function callSql() {
+
+
+ var url = "https://www.mecbar.com/sql_server.html";
+
+ window.open(url, '_blank');
+
+
+}
+
 
 function closeChat() {
     // seleziono tutti gli id = ch1
