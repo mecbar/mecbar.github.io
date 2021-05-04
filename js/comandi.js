@@ -26,14 +26,19 @@ function callAppunti() {
 
 }
 
-function callExcel() {
 
+function callPow() {
+
+ var url = "https://www.mecbar.com/powerShell.html";
+
+ window.open(url, '_blank');
+}
+
+function callExcel() {
 
  var url = "https://www.mecbar.com/excel_avanzato.html";
 
  window.open(url, '_blank');
-
-
 }
 
 function callSql() {
